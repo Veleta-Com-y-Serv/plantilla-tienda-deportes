@@ -1,0 +1,34 @@
+---
+// «Preguntas frecuentes»: la cabeza a la izquierda (fija al bajar en escritorio) y las preguntas en filas plegables
+// (`details/summary`) con filete de tinta arriba y finos entre filas; el signo es una cruz cuadrada que pasa a guion.
+// Sin preguntas no se pinta. Van al JSON-LD FAQPage (src/lib/seo.ts).
+// Lista: `preguntas` [{ pregunta, respuesta }].
+import { seccion } from '../../data/site';
+import Titular from '../ui/Titular.astro';
+import Banda from '../ui/Banda.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const lista = (s?.preguntas ?? []).filter((p) => p.pregunta);
+---
+
+{
+  s && lista.length > 0 && (
+    <Banda id={id} color="nieve">
+      <div class="preguntas-rejilla">
+        <Titular titulo={s.titulo} antetitulo={s.antetitulo} texto={s.texto} />
+        <div>
+          {lista.map((p) => (
+            <details class="faq">
+              <summary>
+                <span>{p.pregunta}</span>
+                <span class="faq-signo" aria-hidden="true" />
+              </summary>
+              {p.respuesta && <p class="faq-respuesta">{p.respuesta}</p>}
+            </details>
+          ))}
+        </div>
+      </div>
+    </Banda>
+  )
+}

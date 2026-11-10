@@ -1,0 +1,54 @@
+---
+// «Taller»: mitad foto vertical a sangre a la izquierda (`imagen`, de toda la altura) y mitad texto: cabeza, la lista
+// de precios del taller por `categoria` (filete de tinta arriba y finos entre filas: servicio, plazo y precio en la cara
+// de titulares), `nota` y el botón (`cta` o, sin url, WhatsApp/llamar). Sin foto, el texto ocupa todo el ancho.
+// Lista: `servicios` [{ nombre, categoria, plazo, precio, texto }].
+import { seccion, texto, conPrecio, porCategoria, externo, preguntar } from '../../data/site';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const lista = (s?.servicios ?? []).filter((x) => x.nombre);
+const grupos = porCategoria(lista);
+const boton = s?.cta?.url ? { ...s.cta, fuera: externo(s.cta.url) } : preguntar('Hola, quiero pedir hueco en el taller', 'Pide hueco por WhatsApp');
+const nota = texto(s?.nota);
+---
+
+{
+  s && (
+    <section id={id} class:list={['mitades', 'mitades--foto-izq', { 'mitades--sin-foto': !s.imagen }]}>
+      {s.imagen && (
+        <div class="mitad-foto foto">
+          <Imagen src={s.imagen} alt={s.titulo || ''} ancho={1050} alto={1400} />
+        </div>
+      )}
+      <div class="mitad-texto">
+        <Titular titulo={s.titulo} antetitulo={s.antetitulo} texto={s.texto} />
+        {grupos.map((g) => (
+          <div class="precios-grupo">
+            {g.nombre && <h3 class="grupo-titulo">{g.nombre}</h3>}
+            <ul class="precios">
+              {g.elementos.map((x) => (
+                <li>
+                  <span class="precios-nombre">
+                    {x.nombre}
+                    {x.texto && <span class="precios-texto">{x.texto}</span>}
+                  </span>
+                  {x.plazo && <span class="precios-plazo">{x.plazo}</span>}
+                  {conPrecio(x.precio) && <span class="precios-precio">{x.precio}</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        {nota && <p class="nota">{nota}</p>}
+        {boton && (
+          <div class="botones">
+            <a class="btn" href={boton.url} {...(boton.fuera && { rel: 'noopener', target: '_blank' })}>{boton.texto}</a>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}

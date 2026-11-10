@@ -1,0 +1,79 @@
+---
+// «Alquiler por días», la firma de la plantilla: el tablón de tarifas de una estación de esquí. Banda clara (papel-2,
+// bajo una tabla densa); cabeza con filete de tinta; por cada `categoria`, su nombre en la cara de titulares y una tabla
+// con filete de tinta de 2 px en la cabecera y finos entre filas: el material (con su línea) y los precios en Barlow
+// Condensed 800, cifras tabulares. Las columnas salen solo si algún material tiene ese precio; sus nombres, de
+// `columna_precio`, `columna_finde` y `columna_semana` (por defecto «1 día», «Fin de semana», «Semana»).
+// En móvil cada fila pasa a bloque con su etiqueta. Debajo, `nota` y el botón (`cta` o, sin url, WhatsApp/llamar).
+// Cada material con `detalle` enlaza a su página (/alquiler/<slug>/).
+// Lista: `material` [{ nombre, categoria, texto, precio, precio_finde, precio_semana, imagen, detalle, imagenes }].
+import { seccion, texto, conPrecio, porCategoria, externo, preguntar } from '../../data/site';
+import { enlaceDe } from '../../lib/paginas';
+import Titular from '../ui/Titular.astro';
+import Banda from '../ui/Banda.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const lista = (s?.material ?? []).filter((m) => m.nombre);
+const columnas = [
+  { clave: 'precio', nombre: texto(s?.columna_precio) || '1 día' },
+  { clave: 'precio_finde', nombre: texto(s?.columna_finde) || 'Fin de semana' },
+  { clave: 'precio_semana', nombre: texto(s?.columna_semana) || 'Semana' },
+].filter((col) => lista.some((m) => conPrecio((m as any)[col.clave])));
+const grupos = porCategoria(lista);
+const boton = s?.cta?.url
+  ? { ...s.cta, fuera: externo(s.cta.url) }
+  : preguntar('Hola, quiero reservar material de alquiler', 'Reservar por WhatsApp');
+const nota = texto(s?.nota);
+---
+
+{
+  s && (
+    <Banda id={id} color="clara">
+      <Titular titulo={s.titulo} antetitulo={s.antetitulo} texto={s.texto} cabeza />
+      {grupos.map((g) => (
+        <div class="tarifa-grupo">
+          {g.nombre && <h3 class="grupo-titulo">{g.nombre}</h3>}
+          <table class="tarifa">
+            <caption class="sr-only">{g.nombre ? `Alquiler: ${g.nombre}` : 'Precios de alquiler'}</caption>
+            <thead>
+              <tr>
+                <th scope="col">Material</th>
+                {columnas.map((col) => <th scope="col" class="tarifa-num">{col.nombre}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {g.elementos.map((m) => {
+                const url = enlaceDe(m);
+                return (
+                  <tr>
+                    <th scope="row">
+                      <span class="tarifa-nombre">{url ? <a href={url}>{m.nombre}</a> : m.nombre}</span>
+                      {m.texto && <span class="tarifa-texto">{m.texto}</span>}
+                    </th>
+                    {columnas.map((col) => {
+                      const p = texto((m as any)[col.clave]);
+                      return (
+                        <td class:list={['tarifa-num', { 'tarifa-num--vacia': !p }]} data-etiqueta={col.nombre}>
+                          {conPrecio(p) ? <span class="tarifa-precio">{p}</span> : p ? <span class="tarifa-consultar">{p}</span> : null}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      ))}
+      {(nota || boton) && (
+        <div class="tarifa-pie">
+          {nota && <p class="nota">{nota}</p>}
+          {boton && (
+            <a class="btn" href={boton.url} {...(boton.fuera && { rel: 'noopener', target: '_blank' })}>{boton.texto}</a>
+          )}
+        </div>
+      )}
+    </Banda>
+  )
+}

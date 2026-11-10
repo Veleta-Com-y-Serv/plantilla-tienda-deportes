@@ -1,0 +1,50 @@
+---
+// «Lo que hay en la tienda»: cabeza con filete de tinta y, debajo, los deportes o secciones de la tienda como
+// estanterías con foto cuadrada a sangre de su celda, nombre en Barlow Condensed 800 en mayúsculas, una línea y lo que
+// incluye en una frase. Rejilla de seis columnas: los primeros van a media fila (dos por fila) y el resto a tercio,
+// para que nunca quede uno suelto en la última fila. Cada deporte con `detalle` enlaza a su página (/deportes/<slug>/).
+// Lista: `deportes` [{ nombre, texto, incluye, imagen, detalle, imagenes }]. Sin deportes, solo la cabeza.
+import { seccion, partes, enFrase, encaje } from '../../data/site';
+import { enlaceDe } from '../../lib/paginas';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+import Banda from '../ui/Banda.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const lista = (s?.deportes ?? []).filter((d) => d.nombre);
+const n = lista.length;
+// Cuántos van a media fila: con n = 3k + 2, dos; con n = 3k + 1, cuatro (o uno si solo hay uno); con n = 3k, ninguno.
+const grandes = n === 1 ? 1 : n % 3 === 2 ? 2 : n % 3 === 1 ? 4 : 0;
+---
+
+{
+  s && (
+    <Banda id={id} color="nieve">
+      <Titular titulo={s.titulo} antetitulo={s.antetitulo} texto={s.texto} cabeza />
+      {n > 0 && (
+        <ul class="estantes">
+          {lista.map((d, i) => {
+            const url = enlaceDe(d);
+            const incluye = partes(d.incluye).map((x, j) => (j ? x.charAt(0).toLowerCase() + x.slice(1) : x));
+            return (
+              <li class:list={['estante', { 'estante--grande': i < grandes, 'estante--solo': n === 1 }]}>
+                {d.imagen && (
+                  <div class="estante-foto foto">
+                    <Imagen src={d.imagen} alt={d.nombre} ancho={1200} alto={900} />
+                  </div>
+                )}
+                <div class="estante-texto">
+                  <h3 class="estante-titulo" style={encaje(d.nombre)}>{url ? <a href={url}>{d.nombre}</a> : d.nombre}</h3>
+                  {d.texto && <p class="estante-linea">{d.texto}</p>}
+                  {incluye.length > 0 && <p class="estante-incluye">{enFrase(incluye)}.</p>}
+                  {url && <p class="estante-mas" aria-hidden="true">Ver la sección</p>}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </Banda>
+  )
+}

@@ -1,0 +1,22 @@
+---
+// Titular de sección: antetítulo como etiqueta discreta (Barlow 500, caja normal) + título en Barlow Condensed 800
+// en mayúsculas + entrada. Sin campos, no pinta nada. El bloque es un contenedor de consulta: el título mide en `cqi`
+// para que la palabra más larga quepa siempre entera en su columna.
+// `cabeza`: con filete de tinta de 2 px arriba, título a la izquierda y entrada a la derecha en escritorio.
+import { encaje } from '../../data/site';
+interface Props { titulo?: string; antetitulo?: string; texto?: string; class?: string; nivel?: 1 | 2; cabeza?: boolean }
+const { titulo, antetitulo, texto, class: clase = '', nivel = 2, cabeza = false } = Astro.props;
+const H = nivel === 1 ? 'h1' : 'h2';
+---
+
+{
+  (titulo || antetitulo || texto) && (
+    <div class:list={[cabeza ? 'cabeza' : 'titular', clase]}>
+      <div class="titular-cabeza">
+        {antetitulo && <p class="antetitulo">{antetitulo}</p>}
+        {titulo && <H class="titulo-seccion" style={encaje(titulo)}>{titulo}</H>}
+      </div>
+      {texto && <p class="entrada">{texto}</p>}
+    </div>
+  )
+}

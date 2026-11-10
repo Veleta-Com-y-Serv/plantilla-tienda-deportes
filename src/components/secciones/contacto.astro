@@ -1,0 +1,66 @@
+---
+// «Contacto»: a la izquierda la cabeza y las vías: el teléfono muy grande en Barlow Condensed 800 en cobalto (lo que
+// se gritaría en el parte de la mañana), WhatsApp, email y dirección en filas con filete; a la derecha el formulario
+// en el mostrador (papel-2, campos cuadrados de 52 px y el botón cobalto como único color). El desplegable «¿Qué te
+// interesa?» lista los deportes de la tienda y los apartados de alquiler, taller y clubes que estén activos.
+import { seccion, buscarSeccion, site, tel, whatsapp, mapa, texto } from '../../data/site';
+import Titular from '../ui/Titular.astro';
+import Banda from '../ui/Banda.astro';
+import Icono from '../ui/Icono.astro';
+import FormularioContacto from '../ui/FormularioContacto.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const c = site.contacto;
+const deportes = (buscarSeccion('deportes')?.s.deportes ?? []).map((d) => d.nombre).filter(Boolean);
+const otros = ['alquiler', 'taller', 'clubes'].map((k) => buscarSeccion(k)?.s).map((x) => texto(x?.titulo)).filter(Boolean);
+const opciones = [...new Set([...deportes, ...otros])].slice(0, 20);
+---
+
+{
+  s && (
+    <Banda id={id} color="nieve">
+      <div class="contacto-rejilla">
+        <div class="contacto-vias">
+          <Titular titulo={s.titulo} antetitulo={s.antetitulo} texto={s.texto} />
+          {c.telefono && (
+            <a class="contacto-telefono" href={tel(c.telefono)}>
+              <span class="sr-only">Llamar al </span>{c.telefono}
+            </a>
+          )}
+          {(c.whatsapp || c.email || c.direccion) && (
+            <ul class="vias">
+              {c.whatsapp && (
+                <li>
+                  <a href={whatsapp(c.whatsapp, `Hola, tengo una pregunta para ${site.nombre}`)} rel="noopener" target="_blank">
+                    <Icono nombre="whatsapp" tam={22} />
+                    <span>Escríbenos por WhatsApp</span>
+                  </a>
+                </li>
+              )}
+              {c.email && (
+                <li>
+                  <a href={`mailto:${c.email}`}>
+                    <Icono nombre="correo" tam={22} />
+                    <span class="vias-correo">{c.email}</span>
+                  </a>
+                </li>
+              )}
+              {c.direccion && (
+                <li>
+                  <a href={mapa(c.direccion)} rel="noopener" target="_blank">
+                    <Icono nombre="mapa" tam={22} />
+                    <span>{c.direccion}</span>
+                  </a>
+                </li>
+              )}
+            </ul>
+          )}
+        </div>
+        <div class="mostrador">
+          <FormularioContacto boton="Enviar la pregunta" productos={opciones} />
+        </div>
+      </div>
+    </Banda>
+  )
+}

@@ -1,0 +1,65 @@
+---
+// Portada «Poster»: la foto (`imagen`) a sangre a todo el ancho y de casi toda la pantalla, con un velo del papel
+// blanco nieve que sube desde abajo a la izquierda; encima, la etiqueta (`antetitulo`), el titular en Barlow Condensed
+// 800 en mayúsculas, una frase y los dos botones (cobalto + contorno de tinta). En móvil la foto va arriba y el texto
+// debajo, sobre el papel. Debajo, el tablero: los `items` (titulo = la cifra o la hora, texto = una línea) en la cara
+// de titulares, en cobalto, bajo un filete de tinta. Sin `imagen`, la portada es solo texto. Sin `cta`, el primer botón
+// pregunta por WhatsApp o llama; sin `cta_secundario`, lleva al mapa.
+import { seccion, site, mapa, externo, preguntar, encaje } from '../../data/site';
+import { altHero } from '../../lib/seo';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string; primera?: boolean }
+const { id, primera = false } = Astro.props;
+const s = seccion(id);
+const c = site.contacto;
+const principal = s?.cta?.url ? { ...s.cta, fuera: externo(s.cta.url) } : preguntar(`Hola, tengo una pregunta para ${site.nombre}`);
+const secundario = s?.cta_secundario?.url ? s.cta_secundario : c.direccion ? { texto: 'Cómo llegar', url: mapa(c.direccion) } : null;
+const tablero = (s?.items ?? []).filter((it) => it.titulo || it.texto);
+---
+
+{
+  s && (
+    <section id={id} class:list={['portada', { 'portada--con-foto': s.imagen }]}>
+      <div class="portada-escena">
+        {s.imagen && (
+          <div class="portada-foto foto">
+            <Imagen src={s.imagen} alt={altHero()} ancho={1600} alto={900} prioridad={primera} />
+          </div>
+        )}
+        <div class="contenedor portada-capa">
+          <div class="portada-texto">
+            {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+            <h1 class="portada-titulo" style={encaje(s.titulo || site.nombre)}>{s.titulo || site.nombre}</h1>
+            {s.texto && <p class="portada-parrafo">{s.texto}</p>}
+            {(principal || secundario) && (
+              <div class="botones">
+                {principal && (
+                  <a class="btn" href={principal.url} {...(principal.fuera && { rel: 'noopener', target: '_blank' })}>
+                    {principal.texto}
+                  </a>
+                )}
+                {secundario && (
+                  <a class="btn-sec" href={secundario.url} {...(externo(secundario.url) && { rel: 'noopener', target: '_blank' })}>
+                    {secundario.texto}
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      {tablero.length > 0 && (
+        <div class="contenedor">
+          <ul class="tablero" style={`--n:${Math.min(tablero.length, 4)}`}>
+            {tablero.map((it) => (
+              <li>
+                {it.titulo && <p class="tablero-cifra">{it.titulo}</p>}
+                {it.texto && <p class="tablero-texto">{it.texto}</p>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  )
+}

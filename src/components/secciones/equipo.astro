@@ -1,0 +1,44 @@
+---
+// «Quién te atiende»: la banda de color del tema (el campo cobalto, `colores.acento`, de borde a borde; el texto se
+// elige claro u oscuro solo). El `titulo` va como declaración en Barlow Condensed 800 a tamaño de cartel y, debajo,
+// las personas en columnas bajo un filete de 2 px: nombre en la cara de titulares, lo que hace (`cargo`) y una línea.
+// La foto solo sale si el cliente pone una de verdad (la silueta de respaldo no se pinta: el equipo va en letra).
+// Lista: `personas` [{ nombre, cargo, texto, foto }].
+import { seccion, esSilueta, encaje } from '../../data/site';
+import Banda from '../ui/Banda.astro';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const personas = (s?.personas ?? []).filter((p) => p.nombre);
+---
+
+{
+  s && (
+    <Banda id={id} color="campo">
+      <div class="declaracion">
+        <div class="titular-cabeza">
+          {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+          {s.titulo && <h2 class="titulo-cartel" style={encaje(s.titulo)}>{s.titulo}</h2>}
+        </div>
+        {s.texto && <p class="entrada">{s.texto}</p>}
+      </div>
+      {personas.length > 0 && (
+        <ul class="personas" style={`--n:${Math.min(personas.length, 4)}`}>
+          {personas.map((p) => (
+            <li class="persona">
+              {!esSilueta(p.foto) && (
+                <div class="persona-foto foto">
+                  <Imagen src={p.foto} alt={p.nombre} ancho={600} alto={800} />
+                </div>
+              )}
+              <h3 class="persona-nombre" style={encaje(p.nombre)}>{p.nombre}</h3>
+              {p.cargo && <p class="persona-cargo">{p.cargo}</p>}
+              {p.texto && <p class="persona-texto">{p.texto}</p>}
+            </li>
+          ))}
+        </ul>
+      )}
+    </Banda>
+  )
+}

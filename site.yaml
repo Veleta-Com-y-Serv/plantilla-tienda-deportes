@@ -1,0 +1,262 @@
+# Contenido de la web. Es lo único que rellena la plataforma NoExpertise.
+# Las secciones se muestran en el orden de este fichero. Para ocultar una: activa: false.
+# Apartado nuevo: un id propio (es su ancla, /#id) con `tipo:` = el diseño de otra sección o `texto`.
+nombre: Alta Ruta
+eslogan: Tienda de esquí, montaña, escalada, trail y bici en el centro de Vielha. Alquiler y taller.
+sector: tienda-deportes
+logo: ""          # ruta a una imagen en public/ (p. ej. /logo.svg). Vacío = nombre en texto.
+colores:
+  primario: "#151a24"   # banda de noche: el pie
+  acento: "#2448e6"     # cobalto: botones, cifras y la banda de color
+  fondo: "#f8f9fc"      # papel blanco nieve
+  texto: "#12161e"      # tinta casi negra
+contacto:
+  telefono: "973 000 000"
+  email: hola@altaruta.es
+  direccion: "Carrèr Major 18, 25530 Vielha (Lleida)"
+  horario: "Lunes a sábado de 9:30 a 13:30 y de 16:30 a 20:30. Domingos de 9:30 a 13:30."
+  whatsapp: "+34 600 000 000"
+redes:
+  instagram: https://www.instagram.com/
+  facebook: https://www.facebook.com/
+  linkedin: ""
+menu:
+  - { texto: Deportes, url: "/#deportes" }
+  - { texto: Alquiler, url: "/#alquiler" }
+  - { texto: Taller, url: "/#taller" }
+  - { texto: Clubes, url: "/#clubes" }
+  - { texto: Horario, url: "/#tienda" }
+  - { texto: Contacto, url: "/#contacto" }
+boton_cabecera: { texto: Pregúntanos, url: "/#contacto" }
+seo:
+  titulo: Alta Ruta · Tienda de esquí, montaña y bici en Vielha
+  descripcion: "Tienda de deportes de montaña en Vielha: esquí, escalada, trail y bici. Alquiler de esquís y raquetas y taller de encerado y de bicis."
+  tipo: SportingGoodsStore   # tipo de schema.org
+marca_pie: true   # «Web creada con NoExpertise» en el pie
+
+secciones:
+  hero:
+    activa: true
+    antetitulo: Tienda de montaña en Vielha desde 1994
+    titulo: Material a punto antes del primer remonte
+    texto: "Tienda, alquiler y taller de esquí, montaña y bici en Vielha."
+    imagen: /fotos/hero.jpg
+    cta: { texto: Pregunta por WhatsApp, url: "https://wa.me/34600000000" }
+    cta_secundario: { texto: Precios de alquiler, url: "/#alquiler" }
+    items:
+      - { titulo: "8:30", texto: "abrimos todos los días en temporada de esquí" }
+      - { titulo: "24 h", texto: "para tener tus esquís afilados y encerados" }
+      - { titulo: "1994", texto: "el año en que abrimos en la calle Mayor" }
+
+  deportes:
+    activa: true
+    antetitulo: Dos plantas en la calle Mayor
+    titulo: Lo que hay en la tienda
+    texto: "Material que usamos nosotros cada semana, elegido para el Pirineo."
+    deportes:
+      - nombre: Esquí y snow
+        texto: "La planta baja entera, con prueba de botas y horno para darles forma."
+        incluye: "Esquí de pista; Esquí de travesía; Snowboard; Botas; Cascos; Máscaras"
+        imagen: /fotos/esqui.jpg
+        imagenes: "/fotos/alquiler-esquis.jpg; /fotos/taller.jpg"
+        detalle: |
+          La planta de abajo es para la nieve. Tenemos esquís de pista para quien empieza y para quien baja rápido, esquís de travesía con sus pieles y cuchillas, tablas de snow y todo lo que va alrededor: botas, fijaciones, cascos, máscaras, guantes y ropa que abriga sin pesar.
+
+          Las botas son lo más importante y lo que más tiempo nos lleva. Te medimos el pie, te las probamos con calma y, si hace falta, les damos forma en el horno para que no te hagan daño el primer día. Las fijaciones te las montamos y ajustamos en el taller, con tu peso y tu nivel.
+
+          Si dudas entre comprar o alquilar, prueba primero con el alquiler: si luego compras el mismo modelo, te descontamos los días.
+      - nombre: Montaña y trekking
+        texto: "Para el valle y para las cimas, con consejo sobre tu ruta."
+        incluye: "Botas de montaña; Mochilas; Ropa técnica; Bastones; Frontales"
+        imagen: /fotos/montana.jpg
+        imagenes: "/fotos/tienda.jpg"
+        detalle: |
+          Para caminar por el valle o subir a una cima de tres mil metros. Botas de montaña de piel o de tejido, mochilas de un día y de travesía, ropa técnica por capas, bastones, frontales y lo pequeño que se olvida: botiquín, manta térmica o una funda para el móvil.
+
+          Te preguntamos qué ruta quieres hacer y en qué época, y te enseñamos lo justo para hacerla con seguridad. No hace falta salir con la mochila llena para disfrutar del monte.
+
+          En invierno también alquilamos raquetas de nieve con bastones, para caminar por los bosques del valle sin esquís.
+      - nombre: Escalada y ferratas
+        texto: "Para la roca, el rocódromo y las ferratas del valle."
+        incluye: "Pies de gato; Cuerdas; Arneses; Cascos; Equipos de ferrata"
+        imagen: /fotos/escalada.jpg
+        imagenes: "/fotos/alquiler-ferrata.jpg"
+        detalle: |
+          Para escalar en roca o en rocódromo y para hacer vías ferratas. Pies de gato de varias hormas, cuerdas, arneses, cascos, cintas, mosquetones y bolsas de magnesio.
+
+          Si empiezas, ven a probarte los pies de gato sin prisa: tienen que apretar, pero no hacerte sufrir. Te explicamos cómo cuidar la cuerda y cuándo hay que cambiar un arnés o un disipador.
+
+          Las ferratas del valle también se pueden hacer con material de alquiler: arnés, disipador y casco, revisados después de cada uso.
+      - nombre: Running y trail
+        texto: "Te miramos la pisada y sales a probarlas a la calle."
+        incluye: "Zapatillas de trail; Zapatillas de asfalto; Mochilas de hidratación; Ropa ligera"
+        imagen: /fotos/running.jpg
+        detalle: |
+          Zapatillas para correr por montaña y por asfalto, mochilas y chalecos de hidratación, ropa ligera, frontales y bastones plegables para las carreras largas.
+
+          Antes de recomendarte unas zapatillas te miramos cómo pisas y te preguntamos por dónde corres y cuántos kilómetros haces a la semana. Puedes salir a probarlas a la calle antes de decidir.
+
+          Varios de nosotros corremos las carreras del valle: si preparas una, pregúntanos qué llevar.
+      - nombre: Bici de montaña
+        texto: "Bicis de montaña y eléctricas a la venta, con el taller al lado."
+        incluye: "Bicis de montaña; Bicis eléctricas; Cascos; Recambios; Ropa de bici"
+        imagen: /fotos/bici.jpg
+
+  alquiler:
+    activa: true
+    antetitulo: Precios por persona, con IVA
+    titulo: Alquiler por días
+    texto: "Recoge el material la tarde antes sin coste y devuélvelo el último día antes de cerrar."
+    columna_precio: 1 día
+    columna_finde: 2 días
+    columna_semana: 6 días
+    nota: "Fianza con DNI. Para grupos de más de ocho personas o escuelas, pregúntanos."
+    cta: { texto: Reservar por WhatsApp, url: "https://wa.me/34600000000" }
+    material:
+      - nombre: Equipo de esquí completo
+        categoria: Esquí
+        texto: "Esquís, botas y bastones. Ajuste de fijaciones incluido."
+        precio: "28 €"
+        precio_finde: "52 €"
+        precio_semana: "135 €"
+        imagen: /fotos/alquiler-esquis.jpg
+        detalle: |
+          Esquís, botas y bastones listos para subir a pistas. Elegimos los esquís según tu nivel, tu altura y tu peso, y te ajustamos las fijaciones en el momento. Las botas se prueban con calma: si te aprietan, te cambiamos de talla o de modelo sin coste.
+
+          Para tenerlo todo preparado, escríbenos antes con los días, la altura, el peso y el número de pie de cada persona. Puedes recogerlo la tarde anterior a partir de las cinco y subir a primera hora sin esperar.
+
+          El casco no va incluido: lo puedes alquilar aparte o traer el tuyo.
+      - nombre: Esquís de travesía con pieles
+        categoria: Esquí
+        texto: "Esquís, botas de travesía, pieles y cuchillas."
+        precio: "45 €"
+        precio_finde: "85 €"
+        precio_semana: "220 €"
+      - nombre: Casco de esquí
+        categoria: Esquí
+        texto: "Tallas para niños y adultos."
+        precio: "6 €"
+        precio_finde: "10 €"
+        precio_semana: "25 €"
+      - nombre: Raquetas de nieve con bastones
+        categoria: Montaña
+        texto: "Para caminar por los bosques nevados del valle."
+        precio: "12 €"
+        precio_finde: "22 €"
+        precio_semana: "50 €"
+        imagen: /fotos/alquiler-raquetas.jpg
+        detalle: |
+          Raquetas de nieve con bastones para caminar por los bosques y las pistas forestales del valle cuando hay nieve. No hace falta experiencia: te enseñamos a ajustarlas en la tienda en cinco minutos.
+
+          Con unas botas de montaña impermeables es suficiente. Si no tienes, pregúntanos y te las buscamos.
+
+          Te recomendamos rutas sencillas según la nieve que haya ese día y te avisamos si hay riesgo de aludes en la zona.
+      - nombre: Equipo de vía ferrata
+        categoria: Montaña
+        texto: "Arnés, disipador y casco, revisados después de cada uso."
+        precio: "15 €"
+        precio_finde: "28 €"
+        precio_semana: ""
+        imagen: /fotos/alquiler-ferrata.jpg
+        detalle: |
+          Arnés, disipador de energía con sus mosquetones y casco. Lo revisamos todo después de cada uso y anotamos la fecha de cada disipador, que es la pieza que más cuidado necesita.
+
+          Antes de salir te explicamos cómo se pone y cómo se pasan los mosquetones en cada anclaje. Si es tu primera ferrata, te decimos cuál del valle conviene para empezar.
+
+          Hay tallas de arnés para niños a partir de unos 30 kilos.
+      - nombre: Bici de montaña eléctrica
+        categoria: Bici
+        texto: "Con casco, candado y cargador."
+        precio: "55 €"
+        precio_finde: "100 €"
+        precio_semana: "260 €"
+        imagen: /fotos/alquiler-bici.jpg
+        detalle: |
+          Bicis de montaña eléctricas con doble suspensión, casco, candado y cargador. Con la batería llena da para una jornada larga por las pistas del valle.
+
+          Te ajustamos el sillín y las suspensiones a tu peso antes de salir y te explicamos los modos de asistencia para que la batería te dure toda la ruta.
+
+          Si vienes en grupo, avísanos con unos días: en verano se reservan pronto.
+      - nombre: Bici de montaña
+        categoria: Bici
+        texto: "Doble suspensión, tallas de la S a la XL."
+        precio: "32 €"
+        precio_finde: "60 €"
+        precio_semana: "150 €"
+
+  taller:
+    activa: true
+    antetitulo: Lo traes por la mañana y está por la tarde
+    titulo: Taller de esquí y de bici
+    texto: "Encerado, afilado y reparación de esquís y tablas. Puesta a punto y reparación de bicis, sean de la tienda o no."
+    imagen: /fotos/taller.jpg
+    nota: "Precios por unidad, con IVA. Las piezas y los recambios se cobran aparte."
+    cta: { texto: Pide hueco en el taller, url: "/#contacto" }
+    servicios:
+      - { nombre: Encerado en caliente, categoria: Esquí y snow, plazo: En el día, precio: "18 €" }
+      - { nombre: Afilado de cantos y encerado, categoria: Esquí y snow, plazo: 24 horas, precio: "32 €" }
+      - { nombre: Reparación de suela, categoria: Esquí y snow, plazo: 24 horas, precio: "desde 15 €" }
+      - { nombre: Montaje y ajuste de fijaciones, categoria: Esquí y snow, plazo: Al momento, precio: "10 €" }
+      - { nombre: Puesta a punto completa, categoria: Bici, plazo: 48 horas, precio: "45 €" }
+      - { nombre: Purgado de frenos hidráulicos, categoria: Bici, plazo: En el día, precio: "20 €" }
+      - { nombre: Cambio de cubierta y líquido tubeless, categoria: Bici, plazo: Al momento, precio: "12 €" }
+
+  equipo:
+    activa: true
+    antetitulo: Quién te atiende
+    titulo: Lo probamos antes de vendértelo
+    texto: "Somos esquiadores, escaladores y corredores del valle. Pregúntanos sin prisa: te decimos lo que usaríamos nosotros."
+    personas:
+      - { nombre: Marta Sabaté, cargo: Esquí de travesía y alquiler, texto: "Técnica deportiva de esquí. Te ajusta las botas como si fueran suyas.", foto: /placeholders/persona.svg }
+      - { nombre: Jordi Aubert, cargo: Taller de bici, texto: "Mecánico y corredor de enduro. Si algo cruje, lo encuentra.", foto: /placeholders/persona.svg }
+      - { nombre: Laia Moga, cargo: Escalada y ferratas, texto: "Escala desde los doce años y conoce cada ferrata del valle.", foto: /placeholders/persona.svg }
+
+  clubes:
+    activa: true
+    antetitulo: Clubes, escuelas y empresas
+    titulo: Equipación con vuestro escudo
+    texto: "Ropa técnica para clubes de esquí, de montaña y de atletismo, escuelas y empresas del valle."
+    cta: { texto: Pedir presupuesto para el club, url: "/#contacto" }
+    items:
+      - { titulo: Nos contáis, texto: "Qué deporte, cuántas personas y para cuándo lo necesitáis." }
+      - { titulo: Probáis las tallas, texto: "Os dejamos una muestra de cada prenda durante una semana." }
+      - { titulo: Cerramos el pedido, texto: "Escudo, colores y precio por prenda, todo por escrito." }
+      - { titulo: Lo recogéis, texto: "Cada prenda marcada con su nombre, en tres o cuatro semanas." }
+
+  tienda:
+    activa: true
+    antetitulo: Horario y cómo llegar
+    titulo: Estamos en la calle Mayor
+    texto: "En el centro de Vielha, a dos minutos de la plaza de la iglesia. Hay aparcamiento público a 200 metros."
+    imagen: /fotos/tienda.jpg
+    cta: { texto: Cómo llegar, url: "https://www.google.com/maps/search/?api=1&query=Vielha" }
+    horario:
+      - { dia: Lunes a sábado, horas: "9:30 a 13:30 y 16:30 a 20:30" }
+      - { dia: Domingos, horas: "9:30 a 13:30" }
+      - { dia: Temporada de esquí, horas: "Todos los días desde las 8:30" }
+
+  opiniones:
+    activa: true
+    antetitulo: Opiniones
+    titulo: Lo que dicen quienes vuelven
+    testimonios:
+      - { texto: "Me dejaron las botas de esquí hechas a mi pie en una tarde. Primer día sin rozaduras en años.", autor: Elena G., nota: Google }
+      - { texto: "Alquilamos raquetas para toda la familia y nos recomendaron una ruta perfecta para los niños.", autor: Pau R., nota: Google }
+      - { texto: "Llevé la bici con los frenos fatal por la mañana y por la tarde estaba lista. Trato de diez.", autor: Sergio M. }
+
+  preguntas:
+    activa: true
+    antetitulo: Preguntas frecuentes
+    titulo: Antes de venir
+    preguntas:
+      - { pregunta: ¿Puedo reservar el material de alquiler?, respuesta: "Sí. Escríbenos por WhatsApp con los días, la altura, el peso y el número de pie de cada persona y te lo dejamos preparado." }
+      - { pregunta: ¿Puedo recoger los esquís la tarde antes?, respuesta: "Sí, a partir de las 17:00 del día anterior y sin coste. Así subes a pistas a primera hora sin esperar." }
+      - { pregunta: ¿Cuánto tarda el encerado?, respuesta: "El encerado en caliente está en el día si lo traes antes de las 11:00. El afilado con encerado, en 24 horas." }
+      - { pregunta: ¿Arregláis bicis que no son de la tienda?, respuesta: "Sí, arreglamos cualquier bici. En verano conviene pedir hueco con un par de días de antelación." }
+      - { pregunta: "Empiezo en la escalada, ¿qué necesito?", respuesta: "Pies de gato, arnés y una bolsa de magnesio para el rocódromo. Ven a probártelos: te enseñamos lo justo para empezar." }
+
+  contacto:
+    activa: true
+    antetitulo: Contacto
+    titulo: Pregúntanos por un producto
+    texto: "¿Lo tenemos en tu talla? ¿Llega antes del sábado? Llámanos o escríbenos y te respondemos en horario de tienda."

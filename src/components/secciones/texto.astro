@@ -1,0 +1,44 @@
+---
+// Apartado genérico (`tipo: texto`): cabeza, párrafos (líneas en blanco entre párrafos), los `items` como filas con
+// filete si los hay y un botón. Con `imagen`, mitad texto y mitad foto a sangre; sin ella, una columna ancha.
+import { seccion, parrafos, externo } from '../../data/site';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const items = (s?.items ?? []).filter((x) => x.titulo || x.texto);
+---
+
+{
+  s && (
+    <section id={id} class:list={['mitades', { 'mitades--sin-foto': !s.imagen }]}>
+      <div class="mitad-texto">
+        <Titular titulo={s.titulo} antetitulo={s.antetitulo} />
+        {s.texto && <div class="parrafos">{parrafos(s.texto).map((p) => <p>{p}</p>)}</div>}
+        {items.length > 0 && (
+          <ul class="precios lista-texto">
+            {items.map((x) => (
+              <li>
+                <span class="precios-nombre">
+                  {x.titulo}
+                  {x.texto && <span class="precios-texto">{x.texto}</span>}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+        {s.cta?.url && (
+          <div class="botones">
+            <a class="btn" href={s.cta.url} {...(externo(s.cta.url) && { rel: 'noopener', target: '_blank' })}>{s.cta.texto}</a>
+          </div>
+        )}
+      </div>
+      {s.imagen && (
+        <div class="mitad-foto foto">
+          <Imagen src={s.imagen} alt={s.titulo || ''} ancho={1200} alto={900} />
+        </div>
+      )}
+    </section>
+  )
+}

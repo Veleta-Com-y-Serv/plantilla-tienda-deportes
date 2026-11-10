@@ -1,0 +1,142 @@
+---
+// Ficha de un elemento con `detalle` (src/lib/paginas.ts, listas de src/data/fichas.ts): /deportes/<slug>/ y
+// /alquiler/<slug>/. Diseño «pista»: migas en Barlow 500 y portada partida (a la izquierda el nombre en Barlow
+// Condensed 800 en mayúsculas, la línea, los precios de alquiler en tablero y los botones; a la derecha la foto a
+// sangre); banda clara con el `detalle` en párrafos y, al lado, la tabla de datos con filete de tinta; fotos de
+// `imagenes`; y otras del mismo apartado.
+import Base from '../../layouts/Base.astro';
+import Imagen from '../../components/ui/Imagen.astro';
+import { seccion, site, tel, texto, conPrecio, partes, enFrase, preguntar, encaje } from '../../data/site';
+import { fichas, relacionadas, resumen } from '../../lib/paginas';
+import type { Ficha } from '../../lib/paginas';
+import { altGaleria, jsonLdFicha, jsonLdMigas, urlBase } from '../../lib/seo';
+import { rutaDeSeccion } from '../../lib/multipagina';
+
+export function getStaticPaths() {
+  return fichas().map((f) => ({ params: { coleccion: f.def.ruta, slug: f.slug }, props: { f } }));
+}
+
+interface Props { f: Ficha }
+const { f } = Astro.props;
+const base = urlBase(Astro.site);
+const nombreSeccion = String(f.seccion.titulo || f.seccion.antetitulo || f.def.nombre).trim();
+const migas = [
+  { nombre: 'Inicio', ruta: '/' },
+  { nombre: nombreSeccion, ruta: rutaDeSeccion(f.idSeccion) },
+  { nombre: f.titulo, ruta: f.url },
+];
+const c = site.contacto;
+const esAlquiler = f.def.campo === 'material';
+const s = seccion(f.idSeccion);
+const accion = esAlquiler
+  ? preguntar(`Hola, quiero reservar: ${f.titulo}`, 'Reservar por WhatsApp', rutaDeSeccion('contacto'))
+  : preguntar(`Hola, tengo una pregunta sobre ${f.titulo.toLowerCase()}`, 'Pregunta por WhatsApp', rutaDeSeccion('contacto'));
+// Precios de alquiler en tablero, con los nombres de columna del apartado.
+const columnas = esAlquiler
+  ? [
+      { clave: 'precio', nombre: texto(s?.columna_precio) || '1 día' },
+      { clave: 'precio_finde', nombre: texto(s?.columna_finde) || 'Fin de semana' },
+      { clave: 'precio_semana', nombre: texto(s?.columna_semana) || 'Semana' },
+    ]
+      .map((col) => ({ ...col, valor: texto(f.elemento[col.clave]) }))
+      .filter((col) => conPrecio(col.valor))
+  : [];
+const fuera = new Set(['precio', 'precio_finde', 'precio_semana', 'incluye']);
+const datos = f.datos.filter((d) => !fuera.has(d.clave));
+const incluye = partes(texto(f.elemento.incluye)).map((x, j) => (j ? x.charAt(0).toLowerCase() + x.slice(1) : x));
+const otras = relacionadas(f, 3);
+const descripcion = resumen(f.texto || f.detalle[0] || '');
+const nota = texto(s?.nota);
+---
+
+<Base titulo={f.titulo} descripcion={descripcion} imagen={f.imagen} ld={[jsonLdMigas(base, migas), jsonLdFicha(base, f)]}>
+  <section class:list={['ficha-portada', { 'ficha-portada--con-foto': f.imagen }]}>
+    <div class="ficha-portada-texto">
+      <nav aria-label="Migas de pan" class="migas">
+        <ol>
+          {migas.map((m, i) => (
+            <li>{i < migas.length - 1 ? <a href={m.ruta}>{m.nombre}</a> : <span aria-current="page">{m.nombre}</span>}</li>
+          ))}
+        </ol>
+      </nav>
+      <h1 class="ficha-titulo" style={encaje(f.titulo)}>{f.titulo}</h1>
+      {f.texto && <p class="portada-parrafo">{f.texto}</p>}
+      {columnas.length > 0 && (
+        <ul class="tablero tablero--ficha" style={`--n:${columnas.length}`}>
+          {columnas.map((col) => (
+            <li>
+              <p class="tablero-cifra">{col.valor}</p>
+              <p class="tablero-texto">{col.nombre}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+      <div class="botones">
+        {accion && <a class="btn" href={accion.url} {...(accion.fuera && { rel: 'noopener', target: '_blank' })}>{accion.texto}</a>}
+        {c.whatsapp && c.telefono && <a class="btn-sec" href={tel(c.telefono)}>Llamar al {c.telefono}</a>}
+      </div>
+    </div>
+    {f.imagen && (
+      <div class="ficha-foto foto">
+        <Imagen src={f.imagen} alt={f.titulo} ancho={1200} alto={900} prioridad />
+      </div>
+    )}
+  </section>
+
+  <section class="banda banda--clara">
+    <div class="contenedor ficha-cuerpo">
+      <article class="ficha-detalle">
+        {f.detalle.map((p) => <p>{p}</p>)}
+      </article>
+      {(datos.length > 0 || incluye.length > 0 || nota) && (
+        <aside class="ficha-lado">
+          {(datos.length > 0 || incluye.length > 0) && (
+            <table class="horario">
+              <caption class="sr-only">Datos de {f.titulo}</caption>
+              <tbody>
+                {incluye.length > 0 && <tr><th scope="row">Qué hay</th><td>{enFrase(incluye)}</td></tr>}
+                {datos.map((d) => <tr><th scope="row">{d.etiqueta}</th><td>{d.valor}</td></tr>)}
+              </tbody>
+            </table>
+          )}
+          {nota && <p class="nota">{nota}</p>}
+        </aside>
+      )}
+    </div>
+  </section>
+
+  {f.imagenes.length > 0 && (
+    <section class="banda banda--nieve" aria-label={`Fotos de ${f.titulo}`}>
+      <div class="contenedor">
+        <ul class="ficha-fotos">
+          {f.imagenes.map((src, i) => (
+            <li class="foto"><Imagen src={src} alt={`${f.titulo}: ${altGaleria(i).toLowerCase()}`} ancho={1200} alto={900} /></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  {otras.length > 0 && (
+    <section class="banda banda--nieve">
+      <div class="contenedor">
+        <div class="cabeza">
+          <div class="titular-cabeza"><h2 class="titulo-seccion" style={encaje(nombreSeccion)}>Más en {nombreSeccion.toLowerCase()}</h2></div>
+          <p class="entrada"><a class="btn-sec" href={rutaDeSeccion(f.idSeccion)}>Ver todo</a></p>
+        </div>
+        <ul class="estantes estantes--otras">
+          {otras.map((o) => (
+            <li class="estante">
+              {o.imagen && <div class="estante-foto foto"><Imagen src={o.imagen} alt={o.titulo} ancho={1200} alto={900} /></div>}
+              <div class="estante-texto">
+                <h3 class="estante-titulo" style={encaje(o.titulo)}><a href={o.url}>{o.titulo}</a></h3>
+                {o.texto && <p class="estante-linea">{o.texto}</p>}
+                {conPrecio(o.precio) && <p class="estante-precio">{o.precio}</p>}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+</Base>

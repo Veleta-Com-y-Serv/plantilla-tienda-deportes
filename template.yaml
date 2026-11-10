@@ -1,0 +1,120 @@
+# Metadatos de la plantilla para el catálogo de NoExpertise.
+id: tienda-deportes
+nombre: Tienda de deportes y montaña
+descripcion: "Web para tiendas de esquí, montaña, escalada, trail y bici: secciones, alquiler por días, taller y horario."
+sectores:
+  - { id: tienda-deportes, nombre: Tienda de deportes }
+  - { id: tienda-montana, nombre: Tienda de montaña }
+  - { id: alquiler-esqui, nombre: Alquiler de esquís }
+  - { id: tienda-bicis, nombre: Tienda de bicis }
+  - { id: tienda, nombre: Tienda }
+secciones:
+  - { id: hero, nombre: Portada }
+  - { id: deportes, nombre: Deportes de la tienda }
+  - { id: alquiler, nombre: Alquiler }
+  - { id: taller, nombre: Taller }
+  - { id: equipo, nombre: Quién te atiende }
+  - { id: clubes, nombre: Clubes y escuelas }
+  - { id: tienda, nombre: Horario y cómo llegar }
+  - { id: opiniones, nombre: Opiniones }
+  - { id: preguntas, nombre: Preguntas frecuentes }
+  - { id: contacto, nombre: Contacto }
+estilo: piste
+plan_minimo: gratis
+version: 1.0.0
+base: astrowind
+demo_url: https://demo-plantilla-tienda-deportes.noexpertise.com
+activa: true
+orden: 800
+
+# Fichas por elemento (docs/plantillas.md § Fichas por elemento). Espejo en src/data/fichas.ts.
+# Cada deporte con `detalle` tiene su página en /deportes/<slug>/ y cada material de alquiler, en /alquiler/<slug>/.
+fichas:
+  - { lista: deportes, campo: deportes, ruta: deportes, nombre: Deporte, tipo: Service }
+  - { lista: alquiler, campo: material, ruta: alquiler, nombre: Material de alquiler, tipo: Product }
+
+# Varias páginas (docs/plantillas.md § Varias páginas): reparto recomendado al activar «Varias páginas».
+# Inicio se queda con la portada y lo que no esté en ninguna página (aquí, los deportes y las opiniones).
+paginas:
+  - { ruta: alquiler, titulo: Alquiler, secciones: "alquiler" }
+  - { ruta: taller, titulo: Taller, secciones: "taller" }
+  - { ruta: clubes, titulo: Clubes y equipo, secciones: "equipo; clubes" }
+  - { ruta: contacto, titulo: Horario y contacto, secciones: "tienda; preguntas; contacto" }
+
+# Asistente de puesta en marcha (NoExpertise): un paso por pantalla. Rutas del site sin índices;
+# tipos: texto y lista (la IA propone), datos, fotos, eleccion (colores y logo) y repaso.
+asistente:
+  - id: negocio
+    titulo: "Tu tienda"
+    pregunta: "¿Cómo se llama tu tienda y qué deportes trabajáis?"
+    ayuda: "Por ejemplo: esquí y montaña, escalada, running o bici; si alquiláis material o tenéis taller, y en qué pueblo o calle estáis."
+    tipo: texto
+    campos: [nombre, eslogan, seo.titulo, seo.descripcion, secciones.hero.antetitulo, secciones.hero.titulo, secciones.hero.texto]
+  - id: contacto
+    titulo: "Cómo te encuentran"
+    pregunta: "¿Dónde está la tienda y cómo os pueden llamar o escribir para preguntar por un producto?"
+    ayuda: "Solo lo que quieras que vean tus clientes. Si usáis WhatsApp, ponlo: saldrá un botón para preguntar y reservar el alquiler."
+    tipo: datos
+    campos: [contacto.telefono, contacto.whatsapp, contacto.email, contacto.direccion, contacto.horario, redes.instagram, redes.facebook]
+  - id: deportes
+    titulo: "Lo que hay en la tienda"
+    pregunta: "¿Qué deportes o secciones tiene la tienda? Uno por línea, con lo que encuentran en cada uno."
+    ayuda: "Por ejemplo: «Esquí y snow: esquís de pista y de travesía, botas, cascos y máscaras» o «Running y trail: zapatillas, mochilas de hidratación y ropa ligera». No hace falta poner marcas."
+    tipo: lista
+    campos: [secciones.deportes.deportes]
+  - id: alquiler
+    titulo: "Alquiler"
+    pregunta: "¿Qué material alquiláis y a qué precio? Uno por línea: el material y lo que cuesta un día, un fin de semana o una semana."
+    ayuda: "Puedes poner delante el tipo (Esquí, Montaña, Bici). Por ejemplo: «Esquí · Equipo completo con botas y bastones · 28 € el día, 52 € dos días». Si no alquiláis, salta este paso y luego oculta el apartado."
+    tipo: lista
+    campos: [secciones.alquiler.material]
+  - id: taller
+    titulo: "Taller"
+    pregunta: "¿Qué arregláis en el taller y cuánto cuesta? Uno por línea: el trabajo, cuánto tarda y el precio si quieres."
+    ayuda: "Por ejemplo: «Esquí · Encerado en caliente · en el día · 18 €» o «Bici · Puesta a punto completa · 48 horas · 45 €». Si no tenéis taller, salta este paso."
+    tipo: lista
+    campos: [secciones.taller.servicios]
+  - id: condiciones
+    titulo: "Cómo funciona el alquiler y el taller"
+    pregunta: "Cuéntame en dos o tres frases cómo se alquila (cuándo se recoge y se devuelve, fianza, grupos) y cómo trabaja el taller (plazos, si hay que pedir hueco)."
+    ayuda: "Por ejemplo: se recoge la tarde antes sin coste, fianza con DNI; el encerado está en el día y arreglamos bicis de cualquier tienda."
+    tipo: texto
+    campos: [secciones.alquiler.titulo, secciones.alquiler.texto, secciones.alquiler.nota, secciones.taller.titulo, secciones.taller.texto, secciones.taller.nota]
+  - id: equipo
+    titulo: "Quién atiende"
+    pregunta: "¿Quién atiende en la tienda y qué deporte practica cada uno? Una persona por línea."
+    ayuda: "Por ejemplo: «Marta, técnica de esquí, se encarga del alquiler» o «Jordi, mecánico y corredor de enduro, lleva el taller de bici». Si prefieres no ponerlo, salta este paso."
+    tipo: lista
+    campos: [secciones.equipo.personas]
+  - id: clubes
+    titulo: "Clubes y escuelas"
+    pregunta: "¿Equipáis a clubes, escuelas o empresas? Cuéntame a quién y cómo se hace un pedido."
+    ayuda: "Por ejemplo: ropa técnica con el escudo para el club de esquí, muestras de tallas una semana y entrega en tres semanas. Si no lo hacéis, salta este paso y oculta el apartado."
+    tipo: texto
+    campos: [secciones.clubes.titulo, secciones.clubes.texto, secciones.clubes.items]
+  - id: horario
+    titulo: "Horario"
+    pregunta: "¿Qué días y a qué horas abrís? Si cambia en temporada de esquí o en verano, dímelo también."
+    ayuda: "Por ejemplo: lunes a sábado de 9:30 a 13:30 y de 16:30 a 20:30; en temporada de esquí, todos los días desde las 8:30."
+    tipo: lista
+    campos: [secciones.tienda.horario]
+  - id: preguntas
+    titulo: "Preguntas frecuentes"
+    pregunta: "¿Qué os preguntan más en la tienda o por teléfono? Escribe cada pregunta y lo que respondéis."
+    ayuda: "Por ejemplo: si se puede reservar el alquiler, si se recoge la tarde antes, cuánto tarda el encerado o si arregláis bicis de otras tiendas."
+    tipo: lista
+    campos: [secciones.preguntas.preguntas]
+  - id: fotos
+    titulo: "Tus fotos"
+    pregunta: "Pon una foto de portada y, si quieres, las de cada deporte, el taller y la tienda."
+    ayuda: "Sube las tuyas o elige una del banco. Las de montaña con luz de día y las del interior de la tienda quedan muy bien. Las que no cambies se quedan como están."
+    tipo: fotos
+    campos: [secciones.hero.imagen, secciones.taller.imagen, secciones.tienda.imagen]
+  - id: aspecto
+    titulo: "Colores y logo"
+    pregunta: "Elige los colores de tu web y, si tienes, tu logo."
+    tipo: eleccion
+    campos: [colores.primario, colores.acento, logo]
+  - id: repaso
+    titulo: "Repaso"
+    tipo: repaso

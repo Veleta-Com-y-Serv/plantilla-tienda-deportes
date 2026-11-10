@@ -1,0 +1,23 @@
+---
+// Página no encontrada con el diseño de la plantilla: «404» en Barlow Condensed 800 en cobalto, una línea y la vuelta.
+import Base from '../layouts/Base.astro';
+import { buscarSeccion } from '../data/site';
+import { rutaDeSeccion } from '../lib/multipagina';
+const deportes = buscarSeccion('deportes');
+---
+
+<Base titulo="Página no encontrada">
+  <section class="banda banda--nieve">
+    <div class="contenedor pagina-suelta">
+      <p class="error-cifra" aria-hidden="true">404</p>
+      <div class="titular">
+        <div class="titular-cabeza"><h1 class="titulo-seccion">Esta página no existe</h1></div>
+        <p class="entrada">Puede que el enlace esté mal o que esa página ya no esté en la web.</p>
+      </div>
+      <div class="botones">
+        <a class="btn" href="/">Volver al inicio</a>
+        {deportes && <a class="btn-sec" href={rutaDeSeccion(deportes.id)}>{deportes.s.titulo || 'La tienda'}</a>}
+      </div>
+    </div>
+  </section>
+</Base>

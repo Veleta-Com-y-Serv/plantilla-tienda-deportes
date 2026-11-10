@@ -1,0 +1,54 @@
+---
+// «Horario y cómo llegar»: mitad texto (cabeza, la dirección grande, el horario como tabla con filete de tinta arriba y
+// finos entre filas, y los botones «Cómo llegar» y «Llamar») y mitad foto vertical a sangre a la derecha (`imagen`).
+// Sin foto, el texto ocupa todo el ancho. Horario: `horario` [{ dia, horas }] (también va al JSON-LD); sin horario,
+// `contacto.horario`. `cta` sustituye a «Cómo llegar» (mapa de `contacto.direccion`) si lleva url.
+import { seccion, site, tel, mapa, externo } from '../../data/site';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const c = site.contacto;
+const horario = (s?.horario ?? []).filter((h) => h.dia || h.horas);
+const llegar = s?.cta?.url ? s.cta : c.direccion ? { texto: 'Cómo llegar', url: mapa(c.direccion) } : null;
+---
+
+{
+  s && (
+    <section id={id} class:list={['mitades', { 'mitades--sin-foto': !s.imagen }]}>
+      <div class="mitad-texto">
+        <Titular titulo={s.titulo} antetitulo={s.antetitulo} texto={s.texto} />
+        {c.direccion && <p class="direccion">{c.direccion}</p>}
+        {horario.length > 0 ? (
+          <table class="horario">
+            <caption class="sr-only">Horario</caption>
+            <tbody>
+              {horario.map((h) => (
+                <tr>
+                  <th scope="row">{h.dia}</th>
+                  <td>{h.horas}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          c.horario && <p class="horario-suelto">{c.horario}</p>
+        )}
+        {(llegar || c.telefono) && (
+          <div class="botones">
+            {llegar && (
+              <a class="btn" href={llegar.url} {...(externo(llegar.url) && { rel: 'noopener', target: '_blank' })}>{llegar.texto}</a>
+            )}
+            {c.telefono && <a class="btn-sec" href={tel(c.telefono)}>Llamar al {c.telefono}</a>}
+          </div>
+        )}
+      </div>
+      {s.imagen && (
+        <div class="mitad-foto foto">
+          <Imagen src={s.imagen} alt={s.titulo ? `${s.titulo}: ${site.nombre}` : site.nombre} ancho={1050} alto={1400} />
+        </div>
+      )}
+    </section>
+  )
+}

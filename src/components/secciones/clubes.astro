@@ -1,0 +1,41 @@
+---
+// «Equipación para clubes»: a la izquierda la cabeza (etiqueta, título, entrada y el botón de presupuesto); a la
+// derecha los pasos como lista ordenada: cada número en Barlow Condensed 800 en cobalto sobre un filete de tinta de
+// 2 px, un título en mayúsculas y una línea. Sin pasos, solo la cabeza y el botón.
+// Lista: `items` [{ titulo, texto }]. `cta`: sin url, WhatsApp/llamar.
+import { seccion, externo, preguntar, encaje } from '../../data/site';
+import Titular from '../ui/Titular.astro';
+import Banda from '../ui/Banda.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const pasos = (s?.items ?? []).filter((x) => x.titulo || x.texto);
+const boton = s?.cta?.url ? { ...s.cta, fuera: externo(s.cta.url) } : preguntar('Hola, quiero pedir presupuesto para equipar a un club', 'Pedir presupuesto');
+---
+
+{
+  s && (
+    <Banda id={id} color="nieve">
+      <div class:list={['partido', { 'partido--solo': pasos.length === 0 }]}>
+        <div class="partido-cabeza">
+          <Titular titulo={s.titulo} antetitulo={s.antetitulo} texto={s.texto} />
+          {boton && (
+            <div class="botones">
+              <a class="btn" href={boton.url} {...(boton.fuera && { rel: 'noopener', target: '_blank' })}>{boton.texto}</a>
+            </div>
+          )}
+        </div>
+        {pasos.length > 0 && (
+          <ol class="pasos">
+            {pasos.map((p) => (
+              <li>
+                {p.titulo && <h3 class="pasos-titulo" style={encaje(p.titulo)}>{p.titulo}</h3>}
+                {p.texto && <p class="pasos-texto">{p.texto}</p>}
+              </li>
+            ))}
+          </ol>
+        )}
+      </div>
+    </Banda>
+  )
+}
